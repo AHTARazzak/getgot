@@ -71,7 +71,7 @@ class Sel(unittest.TestCase):
         else:
             thepage=int(thepage)
         for page in range(1,int(thepage)+1):
-            self.base_url="https://www.ricardo.ch/de/s/"+self.branddirect+'?next_offset=59&page='+str(thepage)
+            self.base_url="https://www.ricardo.ch/de/s/"+self.branddirect+'?next_offset=59&page='+str(page)
             driver = self.driver
             driver.get(self.base_url)
             pageitemsoup = BeautifulSoup(driver.page_source, 'lxml')
