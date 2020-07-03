@@ -73,7 +73,6 @@ class Sel(unittest.TestCase):
             driver.get(base_url)
             WebDriverWait(driver, delay)
             for i in range(1,1000):
-                print(i)
                 self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 htmlcheck.append(driver.page_source)
                 if htmlcheck[-1] == htmlcheck[-2]:
