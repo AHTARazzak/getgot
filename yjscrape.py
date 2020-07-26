@@ -24,15 +24,14 @@ import csv
 from csv import writer
 import datetime
 
-brand='Damir Doma'
+brandnamefile = open("thebrand.txt", "r+")
+brand = brandnamefile.read()
+
 owd=os.getcwd()
 owd
 def append_list_as_row(file_name, list_of_elem):
-    # Open file in append mode
     with open(file_name, 'a+', newline='') as write_obj:
-        # Create a writer object from csv module
         csv_writer = writer(write_obj)
-        # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
 
 def getalllinks(brandname,thepage):
@@ -66,7 +65,6 @@ def getgetpagerange(brandname):
         pagesection=pageitemsoup.find_all('li',{'class' : 'Pager__list'})
         if "</span>" not in str(pagesection[-2]):
             thepage+=1
-            print(thepage)
         else:
             return thepage
             checkpage=False
@@ -139,4 +137,4 @@ for itemurl in allthelinks:
                 splitimage=clothingimage.split('/')
                 urllib.request.urlretrieve(str(clothingimage), str(splitimage[-1]))
                 shutil.move(os.getcwd()+'/'+splitimage[-1], os.getcwd()+'/'+"Y!J_"+itemcode+'/'+splitimage[-1])
-        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["Y!J", thebrandis, itemcode,itemurl,currentpriceis,thecatagories,thetitleis,starttime,"N/A","N/A","N/A","N/A","N/A",theconditionis,datetime.datetime.now()])
+        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["Y!J", thebrandis, "Y!J_"+itemcode,itemurl,str(re.findall("\d+", currentpriceis)[0])+ " (YEN)",thecatagories,thetitleis,starttime,"N/A","N/A","N/A","N/A","N/A",theconditionis,datetime.datetime.now()])

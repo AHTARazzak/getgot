@@ -24,19 +24,14 @@ import csv
 from csv import writer
 import datetime
 
-#Take designer keywords from Poshmark website and paste them into list
-#format: ['Rick Owens','Ann Demeulemeester','Givenchy','Tom Brown']
-#reccomend leaving this one running overnight- slow
-#can be sped up by commenting out time.sleep on final line of getthebrand function but not cool to do
-brand='Rick Owens'
+brandnamefile = open("thebrand.txt", "r+")
+brand = brandnamefile.read()
+
 owd=os.getcwd()
 owd
 def append_list_as_row(file_name, list_of_elem):
-    # Open file in append mode
     with open(file_name, 'a+', newline='') as write_obj:
-        # Create a writer object from csv module
         csv_writer = writer(write_obj)
-        # Add contents of list as last row in the csv file
         csv_writer.writerow(list_of_elem)
 
 def checkpage(pageurl):
@@ -124,7 +119,7 @@ def getthebrand(labels):
                     sizeis=splitsize[-2]
                 else:
                     sizeis="N/A"
-                append_list_as_row(directoryname+"catalogue.csv",["poshmark", brand, itemcode,item,thepriceis,catagoriesis,"N/A","N/A","N/A",colouris,sizeis,"N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(directoryname+"catalogue.csv",["poshmark", brand, "poshmark_"+itemcode,item,str(re.findall("\d+", thepriceis)[0]) + " (USD)",catagoriesis,"N/A","N/A","N/A",colouris,sizeis,"N/A","N/A","N/A",datetime.datetime.now()])
                 carouselli=item_soup.findAll('li',attrs = {'class' : "carousel__item carousel__item",'style' : True})
                 for element in carouselli:
                     start=str(element).index("data-src")+10
