@@ -23,9 +23,18 @@ import random
 import csv
 from csv import writer
 import datetime
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
+
+chromepathfile = open("chromepath.txt", "r+")
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 owd=os.getcwd()
 owd
@@ -119,7 +128,7 @@ def getthebrand(labels):
                     sizeis=splitsize[-2]
                 else:
                     sizeis="N/A"
-                append_list_as_row(directoryname+"catalogue.csv",["poshmark", brand, "poshmark_"+itemcode,item,str(re.findall("\d+", thepriceis)[0]) + " (USD)",catagoriesis,"N/A","N/A","N/A",colouris,sizeis,"N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(directoryname+"catalogue.csv",["poshmark", brand, "poshmark_"+itemcode,item,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'USD',thecurrency)) + " "+thecurrency,catagoriesis,"N/A","N/A","N/A",colouris,sizeis,"N/A","N/A","N/A",datetime.datetime.now()])
                 carouselli=item_soup.findAll('li',attrs = {'class' : "carousel__item carousel__item",'style' : True})
                 for element in carouselli:
                     start=str(element).index("data-src")+10

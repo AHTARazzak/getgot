@@ -18,12 +18,18 @@ import random
 from csv import writer
 import datetime
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -98,7 +104,7 @@ class Sel(unittest.TestCase):
                         thesizeis=thesize.contents[0]
                     else:
                         thesizeis="N/A"
-                append_list_as_row(folderpath+"/"+directoryname+"catalogue.csv",["depop",splitlasthyphen[1]+splitlasthyphen[2], "depop_"+itemcode,item,str(re.findall("\d+", thepriceis)[0])+" (GBP)","N/A", "N/A", "Yes", "N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(folderpath+"/"+directoryname+"catalogue.csv",["depop",splitlasthyphen[1]+splitlasthyphen[2], "depop_"+itemcode,item,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'GBP',thecurrency))+" "+thecurrency,"N/A", "N/A", "Yes", "N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
                 options = webdriver.ChromeOptions()
                 options.add_argument('--ignore-certificate-errors')
                 options.add_argument('--incognito')

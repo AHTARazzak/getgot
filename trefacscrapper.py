@@ -23,6 +23,18 @@ import random
 import csv
 from csv import writer
 import datetime
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
+
+brandnamefile = open("thebrand.txt", "r+")
+brand = brandnamefile.read()
+
+chromepathfile = open("chromepath.txt", "r+")
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
@@ -151,7 +163,7 @@ for itemurl in allthelinks:
             if gx==0:
                 theconditionis="N/A"
         imageurls=[]
-        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["trefac",thelineis, "trefac_"+theitemcodeis,theitemurlis,str(re.findall("\d+", thepriceisowd=os.getcwd())[0])+" (YEN)","N/A",thenameis,avalibis,thematerialis,thecolouris,thesizeis,themodelis,"N/A",theconditionis,datetime.datetime.now()])
+        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["trefac",thelineis, "trefac_"+theitemcodeis,theitemurlis,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'JPY',thecurrency))+" "+thecurrency,"N/A",thenameis,avalibis,thematerialis,thecolouris,thesizeis,themodelis,"N/A",theconditionis,datetime.datetime.now()])
         getimagewindow=item_soup.find_all('ul',{'id' : 'thumblist', 'class' : 'clearfix detailimg'})[0]
         for getimageurl in getimagewindow.find_all('a'):
             imageurls.append(str(getimageurl)[str(getimageurl).index('largeimage:')+13:str(getimageurl).index('}">')-1])

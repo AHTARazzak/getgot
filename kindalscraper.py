@@ -23,9 +23,18 @@ import random
 import csv
 from csv import writer
 import datetime
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
+
+chromepathfile = open("chromepath.txt", "r+")
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 owd=os.getcwd()
 owd
@@ -170,4 +179,4 @@ for itemurl in allthelinks:
         ex=1
         fx=1
         gx=1
-        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["kindal", brandis, "kindal_"+itemcode,itemurl,str(re.findall("\d+", priceis)[0]) + " (YEN)","N/A",titleis,availabilityis,materialis,colouris,sizeis,modelis,descriptionis,conditionis,thetimeis])
+        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["kindal", brandis, "kindal_"+itemcode,itemurl,str(cc.convert(int(re.findall("\d+", priceis)[0]),'JPY',thecurrency)) + " "+thecurrency,"N/A",titleis,availabilityis,materialis,colouris,sizeis,modelis,descriptionis,conditionis,thetimeis])

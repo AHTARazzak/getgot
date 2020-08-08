@@ -18,12 +18,18 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -72,7 +78,6 @@ class Sel(unittest.TestCase):
         else:
             thepagerun=1
         for page in range(1,int(thepagerun)+1):
-            print(page)
             self.base_url="https://www.ricardo.ch/de/s/"+self.branddirect+'?next_offset=59&page='+str(page)
             driver = self.driver
             driver.get(self.base_url)
@@ -95,7 +100,6 @@ class Sel(unittest.TestCase):
                 driver = self.driver
                 delay = 3
                 base_url = "https://www.ricardo.ch"+itemurl
-                print(base_url)
                 driver.get(base_url)
                 WebDriverWait(driver, 3)
                 item_soup = BeautifulSoup(driver.page_source,'lxml')
@@ -111,7 +115,7 @@ class Sel(unittest.TestCase):
                     thedescriptionactual=thedescription[0].text
                 if ax==0:
                     thedescriptionactual="N/A"
-                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["ricardo",self.branddirect.replace("+"," "), "ricardo_"+itemcode, base_url,str(re.findall("\d+", pricesoup)[0])+" (CHF)",titlesoup,"N/A","N/A","N/A","N/A","N/A","N/A",thedescriptionactual,"N/A",datetime.datetime.now()])
+                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["ricardo",self.branddirect.replace("+"," "), "ricardo_"+itemcode, base_url,str(cc.convert(int(re.findall("\d+", pricesoup)[0]),'CHF',thecurrency))+" "+thecurrency,titlesoup,"N/A","N/A","N/A","N/A","N/A","N/A",thedescriptionactual,"N/A",datetime.datetime.now()])
                 imagearea=item_soup.findAll('div',{'role' : 'presentation'})[0]
                 theimages=imagearea.findAll('img')
                 imageurls=[]

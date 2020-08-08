@@ -18,12 +18,18 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -62,7 +68,7 @@ class Sel(unittest.TestCase):
         greaterhtml=[]
         itemlinks=[]
         getlastpage_soup=BeautifulSoup(driver.page_source, 'lxml')
-        thepagnation=getlastpage_soup.findAll("span", {"class": "page-number"})\
+        thepagnation=getlastpage_soup.findAll("span", {"class": "page-number"})
         try:
             self.lastpage=(thepagnation[0].getText().split()[-1].strip())
         except IndexError:
@@ -117,7 +123,7 @@ class Sel(unittest.TestCase):
                         if 'KLEUR' in eachdescp:
                             colouris=eachdescp[eachdescp.index('KLEUR')+51:eachdescp.index('ITEM NUMMER')-34]
                     thematerial=item_soup.findAll('p',attrs = {'id' : "materiaal"})[-1].contents[-1]
-                    append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["TheNextCloset",self.branddirect.replace("+"," "), "thenextcloset_"+itemcode,"https://thenextcloset.com/"+eachitem,str(re.findall("\d+", finalprice[1:])[0]) + " (EUR)","N/A","N/A","N/A",thematerial,colouris,finalsize,"N/A",description,finalcondition,datetime.datetime.now()])
+                    append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["TheNextCloset",self.branddirect.replace("+"," "), "thenextcloset_"+itemcode,"https://thenextcloset.com/"+eachitem,str(cc.convert(int(re.findall("\d+", finalprice[1:])[0]),'EUR',thecurrency)) + " "+thecurrency,"N/A","N/A","N/A",thematerial,colouris,finalsize,"N/A",description,finalcondition,datetime.datetime.now()])
                     carouselimg=item_soup.findAll('ul',attrs = {'class' : "uk-slideshow-items"})[0]
                     carouselimgnest=carouselimg.findAll('a',attrs = {'href' : True})
                     for item_pic_url in carouselimgnest:

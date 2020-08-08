@@ -18,15 +18,18 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
 
-currencypathfile = open("currency.txt", "r+")
-currencypath = currencypathfile.read()
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -99,7 +102,7 @@ class Sel(unittest.TestCase):
                 sizetable=item_soup.find_all('table',{'class' : 'zJowfpBfx3oZOUysfRPF7'})[1]
                 sizetablerows=sizetable.find_all('td')
                 thesize=(sizetablerows[1].getText())
-                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["rebelle",self.directoryname, "rebelle_"+itemcode, base_url,str(re.findall("\d+", theprice)[0]) + " ("+str(currencypath)+")","N/A","N/A","N/A",thematerial,thecolour,thesize,"N/A","N/A",thecondition,datetime.datetime.now()])
+                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["rebelle",self.directoryname, "rebelle_"+itemcode, base_url,str(cc.convert(int(re.findall("\d+", theprice)[0]),'USD',thecurrency)) + " "+thecurrency,"N/A","N/A","N/A",thematerial,thecolour,thesize,"N/A","N/A",thecondition,datetime.datetime.now()])
                 imagearea=item_soup.findAll('figure',{'class' : '_2QG9I7JZ5PUZdZBEXww2au greyProductOverlay'})[0]
                 theimageitself=imagearea.findAll('img')[0]['src']
                 splitimage=theimageitself.split('/')

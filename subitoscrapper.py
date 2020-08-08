@@ -18,13 +18,19 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 #have getgotwrite file with brand name & then readthat into here, take the varibale & feet into se
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -100,7 +106,7 @@ class Sel(unittest.TestCase):
                 if ax==0:
                     thetype="N/A"
                 thedescription=item_soup.find_all('p',{'class' : 'classes_sbt-text-atom__2GBat classes_token-body__1dLNW size-normal classes_weight-book__3zPi1 jsx-436795370 description classes_preserve-new-lines__1X-M6'})[0].getText().strip()
-                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["subito",self.branddirect.replace("%20"," "), itemcode, base_url, str(re.findall("\d+", theprice)[0]) + " (EUR)",thetype,thetitle,"N/A","N/A","N/A","N/A","N/A",thedescription,"N/A",datetime.datetime.now()])
+                append_list_as_row(folderpath+self.directoryname+"catalogue.csv",["subito",self.branddirect.replace("%20"," "), itemcode, base_url, str(cc.convert(int(re.findall("\d+", theprice)[0]),'EUR',thecurrency)) + " ("+thecurrency+")",thetype,thetitle,"N/A","N/A","N/A","N/A","N/A",thedescription,"N/A",datetime.datetime.now()])
                 try:
                     imagearea=item_soup.findAll('div',{'class' : 'carousel flickity-enabled is-draggable'})[0]
                     allimages=imagearea.findAll('img')

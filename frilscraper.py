@@ -23,9 +23,18 @@ import random
 import csv
 from csv import writer
 import datetime
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
+
+chromepathfile = open("chromepath.txt", "r+")
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 owd=os.getcwd()
 owd
@@ -124,4 +133,4 @@ for itemurl in allthelinks:
             urllib.request.urlretrieve(str(clothingimage), str(splitimage[-1]))
             shutil.move(os.getcwd()+'/'+splitimage[-1], os.getcwd()+'/'+"fril_"+itemcode+'/'+splitimage[-1])
             #time.sleep(random.randint(0,2))
-        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["Fril", thebrand.replace("+"," ").upper(), itemcode,itemurl,str(re.findall("\d+", priceis)[0])+" (YEN)",titleis,issold,"N/A","N/A",sizeis,"N/A","N/A","N/A",conditionis,thetimeis])
+        append_list_as_row(brand.replace(" ","")+"catalogue.csv",["Fril", thebrand.replace("+"," ").upper(), itemcode,itemurl,str(cc.convert(int(re.findall("\d+", priceis)[0]),"JPY",thecurrency))+" "+thecurrency,titleis,issold,"N/A","N/A",sizeis,"N/A","N/A","N/A",conditionis,thetimeis])

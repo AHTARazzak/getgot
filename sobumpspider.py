@@ -18,12 +18,18 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -91,15 +97,18 @@ class Sel(unittest.TestCase):
                 item_req = Request(item, headers=headers)
                 item_page = urlopen(item_req).read()
                 item_soup = BeautifulSoup(item_page, 'lxml')
-                theprice=item_soup.findAll('div',attrs = {'class' : "product-sale-price"})[-1].contents
-                thepriceis=(theprice[0][1:])
+                try:
+                    theprice=item_soup.findAll('div',attrs = {'class' : "product-sale-price"})[-1].contents
+                    thepriceis=(theprice[0][1:])
+                except IndexError:
+                    pass
                 thesize=item_soup.findAll('span',attrs = {'class' : "product-size"})
                 if len(thesize)>0:
                     thesize=thesize[-1].contents
                     thesizeis=(thesize[0])
                 else:
                     thesizeis="N/A"
-                append_list_as_row(folderpath+brand.replace(" ","")+"catalogue.csv",["sobump",splitlasthyphen[1]+splitlasthyphen[2], "sobump_"+itemcode,item,str(re.findall("\d+", thepriceis)[0]) + " (GBP)","N/A","N/A","N/A","N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(folderpath+brand.replace(" ","")+"catalogue.csv",["sobump",splitlasthyphen[1]+splitlasthyphen[2], "sobump_"+itemcode,item,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'GBP',thecurrency)) + " "+thecurrency,"N/A","N/A","N/A","N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
                 carouselimg=item_soup.findAll('div',attrs = {'class' : "image-gallery-image"})
                 for element in carouselimg:
                     item_pic_url=element.findChildren()[0]['src']

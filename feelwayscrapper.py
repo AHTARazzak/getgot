@@ -18,12 +18,18 @@ import random
 import datetime
 from csv import writer
 import unittest, time, re
+from currency_converter import CurrencyConverter
+
+cc = CurrencyConverter()
 
 brandnamefile = open("thebrand.txt", "r+")
 brand = brandnamefile.read()
 
 chromepathfile = open("chromepath.txt", "r+")
-chromepath = chromepathfile.read()
+chromepath = chromepathfile.read().strip()
+
+tocurrencyfile = open("currency.txt", "r+")
+thecurrency = tocurrencyfile.read().strip()
 
 def append_list_as_row(file_name, list_of_elem):
     with open(file_name, 'a+', newline='') as write_obj:
@@ -94,7 +100,7 @@ class Sel(unittest.TestCase):
                 titlesoup=item_soup.findAll('div',{'class' : 'kbo-product-title'})[0].getText().strip()
                 pricesoup=item_soup.findAll('p',{'class' : 'discount'})[0]
                 theprice=pricesoup.findAll('em')[0].getText().strip()
-                append_list_as_row(self.directoryname+"catalogue.csv",["Feelway", self.branddirect.replace("+"," "), itemcode, base_url,str(re.findall("\d+", theprice)[0])+" (WON)","N/A",titlesoup,"N/A", "N/A", "N/A","N/A","N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(self.directoryname+"catalogue.csv",["Feelway", self.branddirect.replace("+"," "), itemcode, base_url,str(cc.convert(str(re.findall("\d+", theprice)[0]),"KRW",thecurrency))+" "+thecurrency,"N/A",titlesoup,"N/A", "N/A", "N/A","N/A","N/A","N/A","N/A",datetime.datetime.now()])
                 imagearea=item_soup.findAll('div',{'class' : 'kbo-product-image-wrapper'})[0]
                 theimages=imagearea.findAll('img')
                 imageurls=[]
