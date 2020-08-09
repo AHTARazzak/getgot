@@ -58,7 +58,6 @@ class Sel(unittest.TestCase):
         self.verificationErrors = []
         self.accept_next_alert = True
     def test_sel(self):
-        brand='Rick Owens'
         owd=os.getcwd()
         folderpath=owd+"/"
         owd
@@ -79,17 +78,14 @@ class Sel(unittest.TestCase):
         for a in soup.find_all('a',href=True):
             if "><img" in str(a):
                 start_index=str(a).index("href=")
-                end_index=str(a).index("<img")
+                end_index=str(a).index("><")
                 itemlinks.append("https://sobump.com"+str(a)[start_index+6:end_index-2])
-        itemlinks=itemlinks[1:]
+        itemlinks=itemlinks[2:]
         for item in itemlinks:
             spliturlslash=item.split("/")
             splitlasthyphen=spliturlslash[-1].split("-")
             itemcode=splitlasthyphen[0]
-            try:
-                itemtitle=item[item.index("-")+1:]
-            except ValueError:
-                itemtitle=item
+            itemtitle=item[item.index("-")+1:]
             if not os.path.exists(folderpath+"sobump_"+itemcode):
                 os.makedirs(folderpath+"sobump_"+itemcode)
                 user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64)'
@@ -101,14 +97,14 @@ class Sel(unittest.TestCase):
                     theprice=item_soup.findAll('div',attrs = {'class' : "product-sale-price"})[-1].contents
                     thepriceis=(theprice[0][1:])
                 except IndexError:
-                    pass
+                    thepriceis="N/A"
                 thesize=item_soup.findAll('span',attrs = {'class' : "product-size"})
                 if len(thesize)>0:
                     thesize=thesize[-1].contents
                     thesizeis=(thesize[0])
                 else:
                     thesizeis="N/A"
-                append_list_as_row(folderpath+brand.replace(" ","")+"catalogue.csv",["sobump",splitlasthyphen[1]+splitlasthyphen[2], "sobump_"+itemcode,item,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'GBP',thecurrency)) + " "+thecurrency,"N/A","N/A","N/A","N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
+                append_list_as_row(folderpath+brand.replace(" ","")+"catalogue.csv",["sobump",brand, "sobump_"+itemcode,item,str(cc.convert(int(re.findall("\d+", thepriceis)[0]),'GBP',thecurrency)) + " "+thecurrency,"N/A","N/A","N/A","N/A","N/A",thesizeis,"N/A","N/A","N/A",datetime.datetime.now()])
                 carouselimg=item_soup.findAll('div',attrs = {'class' : "image-gallery-image"})
                 for element in carouselimg:
                     item_pic_url=element.findChildren()[0]['src']

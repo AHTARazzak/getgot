@@ -35,7 +35,7 @@ def myClick():
         os.system("python3 thenextclosetscrapper.py")
     if sobumpvar.get()==1:
         print("Sobump")
-        os.system("python3 sobumpspider.py")
+        os.system("./sobumpspider")
     if ricardovar.get()==1:
         print("Ricardo")
         os.system("python3 ricardoscrapper.py")
@@ -66,9 +66,9 @@ about.grid(row=2,column=0,columnspan=5)
 abouttext = """Open source data-mining tool for luxury second hand
 clothing sites that collects images & listing data
 
-1) Input chrome path into "chromepath.txt" (one off).
+1) Input chrome path into "chromepath.txt" (one off)
 
-2) Input Currency into "Enter Currency (see "CurInf")
+2) Input Currency into "Currency" (see "CurInf")
 
 3) Input brand name into "Enter brand name"
 (e.g 'Rick Owens', 'Damir Doma', 'Gucci')
@@ -192,7 +192,7 @@ currInfo.configure(foreground='purple',bg='white',font=("Times",40), borderwidth
 currInfo.grid(row=3,column=3,columnspan=1)
 
 currencyinput= Entry(master, width=30, fg='purple',bg='white', font=("Times",35))
-currencyinput.insert(0,"Entry Currency")
+currencyinput.insert(0,"Currency")
 currencyinput.grid(row=4,column=0,columnspan=5)
 
 brandentry= Entry(master, width=30, fg='purple',bg='white', font=("Times",40))
