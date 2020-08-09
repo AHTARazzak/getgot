@@ -9,6 +9,7 @@ The script depends on a myriad of different modules & libraries summarised below
 tkinter, os, selenium, bs4, shutil, urlib, sys, csv, random, datetime, unittest, time, re, currency_converter, requests_html, webbrowser, names
 
 HOW TO USE:
+Everything you need is in the getgot_v1.zip
 1) Set pathway to chrome
 2) Run "python3 getgot.py"
 3) Click buttons
