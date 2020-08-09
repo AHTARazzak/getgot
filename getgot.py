@@ -35,7 +35,7 @@ def myClick():
         os.system("python3 thenextclosetscrapper.py")
     if sobumpvar.get()==1:
         print("Sobump")
-        os.system("./sobumpspider")
+        os.system("python3 sobumpspider.py")
     if ricardovar.get()==1:
         print("Ricardo")
         os.system("python3 ricardoscrapper.py")

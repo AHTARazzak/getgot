@@ -3,21 +3,16 @@ import sys
 import urllib.request, urllib.error, urllib.parse
 import webbrowser
 from bs4 import BeautifulSoup
-import pyautogui
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.expected_conditions import visibility_of_element_located
 from selenium.webdriver.support.ui import WebDriverWait
 import re
-import enchant
 import shutil
-import pandas as pd
-from statistics import mean
 import os
 from urllib.request import Request, urlopen
 import urllib.parse
-from collections import OrderedDict
 import names
 import random
 import csv

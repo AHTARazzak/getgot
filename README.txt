@@ -1,0 +1,14 @@
+GETGOT
+AUTHOUR: Ali Razzak
+CONTACT (discord): distraight#2547
+
+GETGOT is a second hand luxury vendor data-mining/web-scraper for internet fashion nerds & is entirely written in Python3. It can search several online vendors for all listing pertaining to a specific brand. It formats the retail data in a CSV file aswell as cataloguing all the images (when it can).
+
+DEPENDENCIES
+The script depends on a myriad of different modules & libraries summarised below:
+tkinter, os, selenium, bs4, shutil, urlib, sys, csv, random, datetime, unittest, time, re, currency_converter, requests_html, webbrowser, names
+
+HOW TO USE:
+1) Set pathway to chrome
+2) Run "python3 getgot.py"
+3) Click buttons
