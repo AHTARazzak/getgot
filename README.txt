@@ -10,6 +10,6 @@ tkinter, os, selenium, bs4, shutil, urlib, sys, csv, random, datetime, unittest,
 
 HOW TO USE:
 Everything you need is in the getgot_v1.zip
-1) Set pathway to chrome
-2) Run "python3 getgot.py"
+1) Set pathway to chrome in chromepath.txt
+2) Run "python3 getgot.py" in command line
 3) Click buttons
